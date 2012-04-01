@@ -1,0 +1,76 @@
+* javaSpeak : A java JNI interface to the espeak text-to-speech synthesizer
+
+This is a very /simple/ SWIG based JNI interface to the C based espeak
+text-to-speech synthesizer. Note the emphasis on simple. I am not a java
+programmer and wrote this code for a very simple purpose - to provide an
+interface to esepak which I could use from within some Clojure code. 
+
+This interface library does not provide full espeak API integration. I've only
+added what I needed. However, it should provide a good starting point for
+anyone who may be interested in developing a more extensive API that will allow
+Java or Clojure to access the espeak synthesizer. 
+
+** Espeak 
+
+Espeak is a good quality, open source and fast text-to-speech software
+synthesizer which runs on many different platforms and supports a number of
+languages. It can be found at http://espeak.sf.net. Most distributions have a
+package for the synthesizer, which includes a command line utility for
+synthesizing text from files or the command line into speech. 
+
+** clj-espeak
+
+I am using this library to write a simple speech server for emacspeak in
+Clojure, which uses espeak as the back-end synthesizer. There is already a TCL
+based espeak speech server for emacspeak. My version is really just an
+experiment which I'm using to both learn Clojure and to understand and
+hopefully document the architecture and API used by emacspeak. Once it has
+reached a stable stage, I will release clj-espeak in another git repository for
+anyone who may be interested in trying it out or developing it further. One
+possibility may be to use this as a basis for a speech server for emacspeak
+that will run on Windows platforms. While I personally have little interest in
+Windows, the existance of a Clojure/Java server may be useful as a starting
+point for anyone who wants to have a go. 
+
+** SWIG
+
+I used SWIG to generate the necessary C and Java interface files as well as the
+shared native library. Using SWIG makes this process almost trivial and so far,
+quite adequate for my requirements. The necessary interface definitions are in
+the /javaSpeak.i/ file.
+
+** Building
+
+To build the library and Main.class test program, you need the following
+software installed. I built on a Ubuntu 10.10 machine with the following
+packages installed 
+
+   - gcc
+   - swig
+   - openJdk
+   - espeak
+
+Run Make to build all the necessary files and libraries. If successful, you
+should have a libjavaSpeak.so shared library and a number of java class files,
+including Main.class, which is a very simple test program. The javaSpeak.c file
+can be used in conjunction with the javaspeak.i file to identify the various
+API calls available and their arguments. The Main.java file should give you the
+basic idea of how to use the library. 
+
+_NOTE_: The libjavaSpeak.so library must be located where Java can find it. I
+copied the library to 
+    : /usr/lib/jvm/java-6-openjdk/jre/lib/amd64/libjavaSpeak.so
+
+on my system. However, you should be able to achieve similar results using
+
+    : java -Djava.library.path=. Main "Hello World"
+
+** Feedback 
+
+If you have any feedback, suggestions or criticisms, please don't hesitate to
+let me know. This is mainly a learning exercise for me, so I'm always keen to
+get feedback or suggestions. 
+
+
+
+
